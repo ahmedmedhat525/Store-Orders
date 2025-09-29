@@ -233,8 +233,10 @@ td button {
     display: flex;
  width:100%;
    min-width:100%;
-  
+ overflow-x: auto;
+ box-sizing: border-box;
     gap: 20px;
     padding: 20px;
   
 } 
+
