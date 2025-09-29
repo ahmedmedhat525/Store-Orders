@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Store</title>
+    <link rel="stylesheet" href="store.css">
+    <script defer src="store.js"></script>
+</head>
+
+<body>
+    <div id="container3">
+        <div id="container1">
+            <div id="form-container">
+                <h1 id="title" style="color: #333333;"> Add Order</h1>
+                <form id="Order-form">
+
+                    <div id="left">
+                        <label for="pickup-number">pickup-number:</label>
+                        <input type="text" id="pickup-number" placeholder="pickup-number" onclick="0" required>
+                        <label for="product-name">product-name:</label>
+                        <input type="text" id="product-name" placeholder="product-name" required>
+                        <label for="Client-name">Client-name:</label>
+                        <input type="text" id="Client-name" placeholder="Client-name" required>
+                        <label for="Address">Address:</label>
+                        <input style="height: 60px;" type="text" id="Address" placeholder="Address" required>
+                        <label for="Status">Status:</label>
+                        <select id="Status" required>
+                            <option value="Under-Review">Under Review</option>
+                            <option value="In-Progress">In Progress</option>
+                            <option value="Completed">Completed</option>
+                        </select>
+                    </div>
+                    <div id="right">
+                        <label for="Store-name">Store-name:</label>
+                        <input type="text" id="Store-name" placeholder="Store-name" required>
+                        <label for="quantity">quantity:</label>
+                        <input type="number" id="quantity" placeholder="quantity" required>
+                        <label for="Client-number">Client-number:</label>
+                        <input type="text" id="Client-number" placeholder="Client-number" required>
+                        <div style="display: flex; gap: 3px;">
+                            <label for="Price">Price: </label>
+                            <input style="flex: 1; width: 40px; padding: 8px; border-radius: 5px;" type="number"
+                                id="Price" placeholder="Price" required>
+                            <input type="number" style="flex: 1; width: 40px; padding: 8px; border-radius: 5px;"
+                                id="PriseForShipping" placeholder="Price for shipping" required>
+                            <input type="number" style="flex: 1; width: 40px; padding: 8px; border-radius: 5px;"
+                                id="PriceForProduct" placeholder="Price for product" required>
+                        </div>
+                        <label for="date">Date:</label>
+                        <input type="date" id="date" required>
+                    </div>
+
+
+                </form>
+                <div id="footer">
+                    <button id="submitButton" type="submit">Add Order</button>
+                </div>
+            </div>
+        </div>
+        <div id="container2">
+
+            <div id="filters">
+                <h1 id="title" style="color: #333333;"> Filter Orders</h1>
+
+                <input type="text" id="SearchClientname" placeholder="Search by Client-name">
+                                                <input type="number" id="SearchClientnumber" placeholder="Search by Client-number">
+
+                <input type="text" id="SearchStoreName" placeholder="Search by Store-name">
+                <input type="text" id="SearchPickupNumber" placeholder="Search by pickup-number">
+                <input type="text" id="SearchProductName" placeholder="Search by product-name">
+                
+            <input type="date" id="SearchDate" placeholder="Search by Date">
+                <select  id="SearchStatus" placeholder="Search by Status">
+                    <option value="">All Statuses</option>
+                    <option value="Under-Review">Under Review</option>
+                    <option value="In-Progress">In Progress</option>
+                    <option value="Completed">Completed</option>
+                    <option value="Cancelled">Cancelled</option>
+                </select>
+                <div id="footer2">
+                    <button id="clearFilters">Clear Filters</button>
+                    <button id="Search">Search</button>
+
+                </div>
+                <button id="ClearAll">Clear All</button>
+            </div>
+        </div>
+    </div>
+    <div id="container4">
+        <div id="orders-list">
+
+            <h1 id="title" style="color: #333333;">Orders List</h1>
+
+            <table id="orders-table">
+                <thead>
+                    <tr>
+                        <th class="pickup-number">pickup-number</th>
+                        <th>product-name</th>
+                        <th>Client-name</th>
+                        <th>Address</th>
+                        <th>Status
+                        </th>
+                        <th>Store-name</th>
+                        <th>quantity</th>
+                        <th class="client-number">Client-number</th>
+                        <th>Price</th>
+                        <th>Date</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="ordersTableBody">
+                  
+                </tbody>
+            </table>
+            <table id=total-table>
+
+                <head>
+                    <tr>
+                        <th colspan="4">Total</th>
+                    </tr>
+                    <tbody>
+                        <tr>
+                            <td >
+                               <strong>  الربح : </strong> 
+                               <span id="profit"> 0</span>
+
+                            </td>
+                            <td >
+
+                              <strong>  تكلفة المنتجات  : </strong>
+                              <span id = "costproduct">0</span>
+
+                            </td>
+                            <td> 
+                                <strong> تكلفة الشحن  :</strong> 
+                                <span id = "shipping" >0</span> 
+                            </td>
+                            <td> <strong>  التكلفة شامل كل شئ :</strong>
+                                <span id ="allcoast" >0</span> 
+                            </td>
+
+
+
+        </div>
+    </div>
+
+<script type="module">
+  import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.1.0/firebase-app.js';
+  import { getFirestore, collection, addDoc, getDocs } from 'https://www.gstatic.com/firebasejs/10.1.0/firebase-firestore.js';
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyCTRlJ8mKoBVHfM5pnN2BZ4kIyLaByyHhI",
+    authDomain: "myordersapp-d7f33.firebaseapp.com",
+    projectId: "myordersapp-d7f33",
+    storageBucket: "myordersapp-d7f33.firebasestorage.app",
+    messagingSenderId: "224119522509",
+    appId: "1:224119522509:web:3d3c897d8094e64eaf1584"
+ 
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  // مثال لإضافة أوردر
+  async function addOrder(order) {
+    await addDoc(collection(db, "orders"), order);
+    console.log("Order added!");
+  }
+
+  // مثال لقراءة الأوردرات
+  async function loadOrders() {
+    const querySnapshot = await getDocs(collection(db, "orders"));
+    querySnapshot.forEach((doc) => {
+      console.log(doc.id, " => ", doc.data());
+    });
+  }
+
+  window.onload = loadOrders;
+</script>
+</body>
+
+</html>
